@@ -1,0 +1,241 @@
+<%# Gallery Dashboard %>
+
+<%- include('header.ejs') %>
+
+<!-- Bootstrap modal to buyback artwork -->
+<div class="modal fade" id="artSellModal" tabindex="-1" role="dialog" aria-labelledby="artSellModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="artSellModalLabel">Buyback This Artwork</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <form action="#">
+      <input type="hidden" name="artworkId" id="artworkId" value="" />
+      <input type="hidden" name="galleryId" id="galleryId" value="" />
+      <div class="modal-body">
+      <row class="mt-2 mb-2">
+        <div class="form-check mb-0">
+        <input type="checkbox" class="form-check-input" id="buyback" required>
+        <label class="form-check-label small" for="buyback">You are about to buyback this art that was previously sold to member[s] at various LOOK prices / fractional %. This action cannot be undone and will result in all previous buyers to be removed as fractional owners of this artw. You warrant, as a gallery owner that you have full rights to buyback this piece of art and that you agree to the Terms of Service.   
+        </label>
+        </div>
+        <div class="small text-danger">For demonstration purposes only.</div>
+      </row>
+      </div>
+      <div class="modal-footer">
+      <button type="button" name="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      <button type="submit" name="btnSell" value="Sell" class="btn btn-primary">Buyback</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<section class="container">
+    <div class="row dashboard mt-4 mb-4">
+      <div class="col">
+        <p class="lead text-muted"><%= Gallery.Title %>, Welcome to your Dashboard</p>
+        <p>Here you can upload, discover, buy and sell fractionalized artwork.</p>
+      </div>
+      <div class="col">
+        <div class="row sell mb-2">
+          <div class="col-md-4">
+            <a href="/art-publish?galleryId=<%= Gallery.Id %>" class="btn btn-secondary text-left publish">Add Art</a>
+          </div>
+        </div>
+    </div>
+</section>  
+
+<!-- Bootstrap accordian panel to display open/close sections for Discover Art, Gallery Art, Gallery Financials --> 
+<div class="container">
+  <div class="panel-group" id="accordion">
+
+      <div class="panel panel-default" id="panel1">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="dashboard" data-toggle="collapse" data-target="#collapseOne" 
+             href="#collapseOne" class="collapsed">Discover Art</a>
+          </h4>
+        </div>
+
+		<div id="collapseOne" class="panel-collapse collapse">
+			<div class="panel-body">
+				<% DiscoverArt.forEach(function(Artwork) { %>
+				  <div class="row mt-4 mb-4">
+					<div class="col-md-12">
+					  <row>
+						<% if (Artwork.HasThumbnail) { %>
+							<img class="rounded float-left mr-2 provenance" src="<%= ApiServer %>/stream/thumbnail/<%= Artwork.Id %>" data-holder-rendered="true">
+						<% } else { %>
+							<img class="rounded float-left mr-2 provenance" alt="100x100" src="/images/thumbnail100.svg" data-holder-rendered="true">
+						<% } %>
+						<p class="metadata-title mb-0">
+							<a href="/art-detail?artworkId=<%= Artwork.Id %>">
+								<%= Artwork.Title %>
+							</a>
+						</p>
+						<p class="description text-muted mb-0"><%= Artwork.Description %></p>
+						<p class="text-bold mb-0"><%= Artwork.Artist %></p>
+
+						<% if (Artwork.Sellable) { %>
+							<p class="text-bold mb-0">For Sale: <%= Artwork.Price %></p>
+						<% } else { %>
+							<p class="text-bold mb-0"><b>Not for Sale</b></p>
+						<% } %>
+					  </row>
+					</div>
+				  </div>
+				<% }); %>
+
+				<div>
+					<a href="/art-discover">See all &gt;</a>
+				</div>
+			</div>
+		</div>
+	  </div>
+
+      <div class="panel panel-default" id="panel2">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="dashboard" data-toggle="collapse" data-target="#collapseTwo" 
+             href="#collapseTwo" class="collapsed">Gallery Art</a>
+          </h4>
+        </div>
+
+		<div id="collapseTwo" class="panel-collapse collapse">
+			<div class="panel-body">
+				<% GalleryArt.forEach(function(Artwork) { %>
+				  <div class="row mt-4 mb-4">
+					<div class="col-md-12">
+					  <row>
+						<% if (Artwork.HasThumbnail) { %>
+							<img class="rounded float-left mr-2 provenance" src="<%= ApiServer %>/stream/thumbnail/<%= Artwork.Id %>" data-holder-rendered="true">
+						<% } else { %>
+							<img class="rounded float-left mr-2 provenance" alt="100x100" src="/images/thumbnail100.svg" data-holder-rendered="true">
+						<% } %>
+						<p class="metadata-title mb-0">
+							<a href="/art-detail?artworkId=<%= Artwork.Id %>">
+								<%= Artwork.Title %>
+							</a>
+<!--                 			<a href="#artSellModal" data-toggle="modal">Buyback Art</a> -->
+						</p>
+						<p class="description text-muted mb-0"><%= Artwork.Description %></p>
+						<p class="text-bold mb-0"><%= Artwork.Artist %></p>
+
+						<% if (Artwork.Sellable) { %>
+							<p class="text-bold mb-0">For Sale: <%= Artwork.Price %></p>
+						<% } else { %>
+							<p class="text-bold mb-0"><b>Not for Sale</b></p>
+						<% } %>
+					  </row>
+					</div>
+				  </div>
+				<% }); %>
+
+				<div>
+					<a href="/art-galleryart?galleryId=<%= Gallery.Id %>">See all &gt;</a>
+				</div>
+			</div>
+		</div>
+	  </div>
+
+      <div class="panel panel-default" id="panel3">
+          <div class="panel-heading">
+          	<h4 class="panel-title">
+          		<a class="dashboard" data-toggle="collapse" data-target="#collapseThree"
+             		href="#collapseThree" class="collapsed">Gallery Financials</a>
+        	</h4>
+          </div>
+          <div id="collapseThree" class="panel-collapse collapse">
+              <div class="panel-body">
+                <row>
+                  <div class="ml-3 mt-2 mb-4">
+                    <p class="">Retrieve your MyEtherWallet balance 
+                      <a href="https://www.myetherwallet.com/#view-wallet-info" target="_blank">here</a>.
+                    </p>
+                  </div>
+                </row>
+                <row>
+                  <div class="mt-2 ml-0">
+                    <!-- Future API call to wallet; to POST gallery wallet address for artwork sell transactions -->
+                    <form class="form-wallet-address" action="" method="post">
+                      <span class="ml-3 text-bold">MyEtherWallet address for artwork transactions</span>
+                      <label for="walletAddress" class="sr-only">MyEtherWallet Address</label>
+                      <input type="text" class="form-control mb-0" id="wallet_address" name="wallet_address" placeholder="<% if (Gallery.WalletAddress) { %><%= Gallery.WalletAddress %><% } %>" value="" required="">
+                    </form>
+                    <p class="ml-3">Change your MyEtherWallet address in <a href="/settings">Settings</a>.</p>
+                  </div>
+                </row>
+              </div>
+          </div>
+      </div>
+
+      <div class="panel panel-default" id="panel4">
+	      <div class="panel-heading">
+	      	<h4 class="panel-title">
+	      		<a class="dashboard" data-toggle="collapse" data-target="#collapseFour"
+	         		href="#collapseThree" class="collapsed">Transaction Status
+	      		</a>
+	    	</h4>
+          </div>
+          <div id="collapseFour" class="panel-collapse collapse">
+            <div class="panel-body">
+				<% if (Transactions && Transactions.length > 0) { %>
+				  <div class="row mt-4 mb-4">
+					<div class="col-md-12">
+					  <div class="table-responsive">
+						<table class="table">
+						<thead>
+						  <tr>
+							<th scope="col">ID</th>
+							<th scope="col">Title</th>
+							<th scope="col">% Owned</th>
+							<th scope="col">LOOK</th>
+							<th scope="col">USD</th>
+							<th scope="col">Purchase Date</th>
+							<th scope="col">Purchaser</th>
+							<th scope="col">Purchaser Email</th>
+							<th scope="col">Purchase Status</th>
+						  </tr>
+						</thead>
+						<tbody>
+			  				<% Transactions.forEach(function(Transaction) { %>
+							  <tr>
+								<th scope="row"><a href="/art-detail?artworkId=<%= Transaction.ArtworkId %>"><%= Transaction.ArtworkId %></a></th>
+								<td><%= Transaction.Title %></td>
+								<td><%= Transaction.PercentageOwned %>%</td>
+								<td><%= Transaction.Look %></td>
+								<td><%= Transaction.USD %></td>
+								<td><%= Transaction.PurchaseDate %></td>
+								<td><%= Transaction.Purchaser %></td>
+								<td><%= Transaction.PurchaserEmail %></td>
+								<td><%= Transaction.PurchaseStatusLabel %></td>
+							  </tr>
+		  				<% }); %>
+						</tbody>
+					  </table>
+					  </div>
+					</div>
+				  </div>
+				<% } else { %>
+					<p><b>No transactions have been made yet</b></p>
+				<% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+	<% if (typeof ErrorText !== 'undefined' && ErrorText !== null && ErrorText != '') { %>
+		<div class="alert alert-danger alert-dismissible">
+		  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		  <%= ErrorText %>
+		</div>
+	<% } %>
+
+</div>
+
+<%- include('footer.ejs') %>

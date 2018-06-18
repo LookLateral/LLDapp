@@ -1,0 +1,196 @@
+Test site: http://taurusapitest.azurewebsites.net/
+
+General
+=======
+
+Responses are JSON except where noted. All JSON responses have 3 common fields:
+
+1) Result -- an integer HTTP status code. Anything other than 200 indicates an error.
+2) Error -- in the event of an error, a string description of the error.
+3) Token -- after registration or login, all responses contain an authentication token which must be passed in every request in the usual HTTP "Authorization" header for basic auth, e.g.:
+
+	Authorization: Basic {token}
+
+Members
+=======
+
+URL: /member/register
+---------------------
+
+Purpose: register an individual (regular) member
+
+Method: POST
+
+Parameters: the POST body must contain email, password, country, first name (as firstname), and last name (as lastname).
+
+If successful, the member is registered and then logged in; a valid auth token is returned as described above.
+
+URL: /member/login
+------------------
+
+Purpose: log a member onto the system
+
+Method: POST
+
+Parameters: the POST body must contain email and password.
+
+If successful, the member is logged in and a valid auth token is returned as described above.
+
+The JSON returned on successful login also contains: email, country, first name, last name, role (1 = admin; 2 = member), and status (1 = active; 2 = blocked; 3 = suspended). It also contains an array of owned galleries, each element of which describes a single gallery (title, description, created by, and created date).
+
+URL: /member/{id}/wallet
+------------------------
+
+Purpose: get a member's wallet address
+
+Method: GET
+
+Parameters: the {id} in the URL must be the internal id of the user whose wallet address is to be returned
+
+If successful, the JSON returned contains the user's wallet address
+
+URL: /member/{id}/wallet
+------------------------
+
+Purpose: set a member's wallet address
+
+Method: POST
+
+Parameters: the {id} in the URL must be the internal id of the user whose wallet address is to be set
+
+The JSON returned contains the status of the request.
+
+Galleries
+=========
+
+URL: /gallery
+-------------
+
+Purpose: create a gallery
+
+Method: POST
+
+Parameters: the POST body must contain email (of the creating user), title (for the new gallery), and description (of the new gallery).
+
+If successful, the internal id of the newly created gallery is returned (in GalleryId).
+
+URL: /gallery/{id}
+------------------
+
+Purpose: return information about a specific gallery
+
+Method: GET
+
+Parameters: the {id} in the URL must be the internal id of the gallery to be returned.
+
+If successful, the JSON returned contains: title, description, and create date of the gallery; the email of the user who created the gallery; an array containing the artworks in the gallery.
+
+
+Artworks
+========
+
+URL: /artwork/{id}
+------------------
+
+Purpose: return information about a specific artwork
+
+Method: GET
+
+Parameters: the {id} in the URL must be the internal id of the artwork to be returned.
+
+If successful, the JSON returned contains: all stored metadata about the artwork; an array containing details of any profile images uploaded for the artwork; an array containing details of any provenance items uploaded for the artwork; an array containing details of the owner(s) of the artwork.
+
+URL: /artwork/{id}/approve
+--------------------------
+
+Purpose: approve an artwork for sale
+
+Method: GET
+
+Parameters: the {id} in the URL must be the internal id of the artwork to be approved
+
+The JSON returned contains the status of the request. Note that only admins can approve an artwork for sale.
+
+URL: /artwork/{id}/sell
+-----------------------
+
+Purpose: marks an artwork as sellable
+
+Method: POST
+
+Parameters: the {id} in the URL must be the internal id of the artwork to be marked as sellable. The POST body must include the following parameters: the fractionalized percentage (as "fractionalizedpercentage") of the artwork (this should be a value in the range of 10 to 49); the price in USD of the artwork (without the leading dollar sign) (as "price"); the Look Lateral price of the artwork (as "looklateralprice"); the id of the gallery that contains the artwork (as "galleryid").
+
+URL: /artwork/discover
+----------------------
+
+Purpose: return a list of artworks to be displayed in the "Discover Art" section.
+
+Method: GET
+
+Parameters: N/A
+
+If successful, the JSON returned contains an array of all approved artwork in the system, regardless of gallery.
+
+URL: /artwork/myart
+-------------------
+
+Purpose: returns a list of the artworks owned (bought) by the user whose email is specified on the querystring (e.g., /artwork/discover?email=fred@flintstone.com).
+
+Method: GET
+
+Parameters: see "Purpose" above.
+
+If successful, the JSON returned contains an array of all artwork owned by the specified user.
+
+URL: /artwork/upload
+--------------------
+
+Purpose: uploads a new artwork into the system.
+
+Method: POST
+
+Parameters: the POST body must contain the email of the user uploading the artwork; the artwork's title, description, artist first & last names (as a single string, e.g., "Pablo Picasso"), courtesy, medium, and date of creation (in "WorkCreated"); the internal id of the gallery into which the artwork is to be uploaded.
+
+If successful, the JSON returned contains the internal id of the newly created artwork (in UploadedId).
+
+URL: /artwork/{id}/uploadImage
+------------------------------
+
+Purpose: uploads a new profile image for an artwork into the system.
+
+Method: POST
+
+Parameters: the POST body must contain the email of the user uploading the image; the internal id of the artwork for which the image is being uploaded (as ArtworkId); the filename of the image file (as FileName); the contents of the image as a base64-encoded string (as FileBytes).
+
+If successful, the JSON returned contains the internal id of the newly uploaded image (in UploadedId).
+
+URL: /artwork/{id}/uploadProvenance
+-----------------------------------
+
+Purpose: uploads a new provenance item for an artwork into the system.
+
+Method: POST
+
+Parameters: the POST body must contain the email of the user uploading the provenance item; the internal id of the artwork for which the provenance item is being uploaded (as ArtworkId); the filename of the provenance item's file (as FileName); the contents of the provenance item as a base64-encoded string (as FileBytes).
+
+If successful, the JSON returned contains the internal id of the newly uploaded provenance item (in UploadedId).
+
+URL: /stream/image/{id}
+-----------------------
+
+Purpose: streams an artwork's profile image to the client device (browser, etc) from the database. The URL should be used in the "src" attribute of the <img/> tag.
+
+Method: GET
+
+Parameters: the {id} in the URL must be the internal id of the artwork's profile image.
+
+URL: /stream/provenance/{id}
+----------------------------
+
+Purpose: streams an artwork's provenance item to the client device (browser, etc) from the database. The provenance item is streamed as an attachment which causes it to be downloaded.
+
+Method: GET
+
+Parameters: the {id} in the URL must be the internal id of the artwork's provenance item.
+
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-116756812-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-116756812-2');
+    </script>
+
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel='stylesheet' href='/stylesheets/customstyle.css' />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div class="navbar navbar-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+          <a href="/" class="navbar-brand d-flex align-items-center">
+            <strong>Look Lateral Test</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarHeader">
+            <div class="navbar-nav">
+				<% if (typeof MemberData !== 'undefined' && MemberData !== null) { %>
+					<% if (MemberData.Role == 1) { %>
+					  <a class="nav-item nav-link" href="/art-list">Sysadmin Manage Art</a>
+					<% } %>
+					<a class="nav-item nav-link" href="/member-dashboard">Member Dashboard</a>
+					<% if (MemberData.OwnedGalleries && MemberData.OwnedGalleries.length > 0) { %>
+					  <a class="nav-item nav-link" href="/gallery-dashboard">Gallery Dashboard</a>
+					<% } %>
+					<a class="nav-item nav-link" href="/art-discover">Discover Art</a>
+          <a class="nav-item nav-link" href="/settings">Settings</a>
+					<a class="nav-item nav-link" href="/logout">Logout</a>
+				<% } %>
+				  <a class="nav-item nav-link" href="/how-it-works">How it Works</a>
+				  <a class="nav-item nav-link" href="/about-us">About Us</a>
+				  <a class="nav-item nav-link" href="/termsofservice">Terms of Service</a>
+				  <a class="nav-item nav-link" href="/privacypolicy">Privacy Policy</a>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+    

@@ -1,0 +1,44 @@
+<%# Discover Art %>
+
+<%- include('header.ejs') %>
+
+<div class="container">
+	<h4 class="text-muted text-bold mt-4 mb-4 page-title">Discover Art</h4>
+	<hr>
+	<div class="row mt-4 mb-4">
+		<div class="col-md-12">
+			<row>
+				<div class="ml-0 mb-4">
+					<% Artworks.forEach(function(Artwork) { %>
+						<% if (Artwork.HasThumbnail) { %>
+							<img class="rounded float-left mr-2 provenance" src="<%= ApiServer %>/stream/thumbnail/<%= Artwork.Id %>" data-holder-rendered="true">
+						<% } else { %>
+							<img class="rounded float-left mr-2 provenance" alt="100x100" src="/images/thumbnail100.svg" data-holder-rendered="true">
+						<% } %>
+						<p class="metadata-title mb-0">
+							<a href="/art-detail?artworkId=<%= Artwork.Id %>">
+								<%= Artwork.Title %>
+							</a>
+						</p>
+						<p class="description text-muted mb-0"><%= Artwork.Description %></p>
+						<p class="text-bold mb-0"><%= Artwork.Artist %></p>
+
+						<% if (Artwork.Sellable) { %>
+							<p class="text-bold mb-4">For Sale: <%= Artwork.Price %></p>
+						<% } else { %>
+							<p class="text-bold mb-4"><b>Not for Sale</b></p>
+						<% } %>
+					<% }); %>
+				</div>
+			</row>
+		</div>	
+	</div>	
+	<% if (typeof ErrorText !== 'undefined' && ErrorText !== null && ErrorText != '') { %>
+		<div class="alert alert-danger alert-dismissible">
+		  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		  <%= ErrorText %>
+		</div>
+	<% } %>
+</div>
+
+<%- include('footer.ejs') %>

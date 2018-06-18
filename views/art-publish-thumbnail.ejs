@@ -1,0 +1,30 @@
+﻿<%# Art publish thumbnail %>
+
+<%- include('header.ejs') %>
+
+<main role="main">
+	<section class="jumbotron artwork-publish">  
+		<form class="form-artwork-publish" action="/art-publish-thumbnail-post" method="post" encType="multipart/form-data">
+			<h1 class="h3 mb-3 font-weight-normal artwork-publish text-center">Publish Art Thumbnail</h1>
+			<p class="artwork-publish text-center">Provide the following material to publish an artwork thumbnail.<br/>
+			* Required Fields</p>
+			<label for="thumbnail-file">Thumbnail Filename*</label>
+			<input type="file" class="form-control" id="FileName" name="FileName" placeholder="Thumbnail Filename" value="" required>
+			<label for="artworkID">Art ID*</label>
+			<input type="number" class="form-control" name="ArtworkId" id="ArtworkId" placeholder="ex: 2468" value="" required>
+			<hr class="mt-2">
+			<p><input type="submit" class="btn btn-secondary publish" value="Publish"></p>
+		</form>
+	</section>
+</main>
+
+<% if (typeof ErrorText !== 'undefined' && ErrorText !== null && ErrorText != '') { %>
+	<div class="container">
+		<div class="alert alert-danger alert-dismissible">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<%= ErrorText %>
+		</div>
+	</div>
+<% } %>
+
+<%- include('footer.ejs') %>

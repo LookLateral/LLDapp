@@ -1,0 +1,35 @@
+<%# Art publish images%>
+
+<%- include('header.ejs') %>
+
+<main role="main">
+	<section class="jumbotron artwork-publish">  
+		<form class="form-artwork-publish" action="/art-publish-image-post" method="post" encType="multipart/form-data">
+			<h1 class="h3 mb-3 font-weight-normal artwork-publish text-center">Publish Art Images</h1>
+			<p class="artwork-publish text-center">Provide the following information, files to publish artwork images.<br/>
+			* Required Fields</p>
+			<label for="hero-marketing-image">"Hero" Marketing Image* (.jpg)</label>
+			<input type="file" class="form-control" name="FileName" id="FileName" placeholder="Hero Marketing Image*" value="" required="">
+			<label for="publisher-email">Email of Publisher*</label>
+			<input type="email" class="form-control" name="email" id="email" placeholder="ex: greg@galleryowner.com" value="" required="">
+			<label for="artworkid">Art ID*</label>
+			<input type="number" class="form-control" name="ArtworkId" id="ArtworkId" placeholder="ex: 2468" value="" required="">
+			<div class="invalid-feedback">
+				Please select a valid country.
+			</div>
+			<hr class="mt-2">
+			<p><input type="submit" class="btn btn-secondary publish" value="Publish"></p>
+		</form>
+	</section>
+</main>
+
+<% if (typeof ErrorText !== 'undefined' && ErrorText !== null && ErrorText != '') { %>
+	<div class="container">
+		<div class="alert alert-danger alert-dismissible">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<%= ErrorText %>
+		</div>
+	</div>
+<% } %>
+
+<%- include('footer.ejs') %>

@@ -1,0 +1,158 @@
+<%# Art Detail Buy with gallery wallet address %>
+
+<%- include('header.ejs') %>
+
+<!-- Bootstrap modal to select Fractionalized Art option; start payment process -->
+<!-- Modal -->
+<div class="modal fade" id="artbuyModal" tabindex="-1" role="dialog" aria-labelledby="artbuyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="artbuyModalLabel">Reserve This Artwork</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <row>
+            <img data-src="holder.js/100x100" class="rounded float-left mr-2 artwork-thumbnail" alt="100x100" src="/images/thumbnail100.svg" data-holder-rendered="true">
+            <div class="ml-0 mb-4 modal-artwork-metadata">
+              <span class="text-muted">Artwork Title</span><br/> 
+              <span class="text-muted">Description</span><br/>
+              <span class="artwork-sell font-weight-bold">For Sale: Price $21,120</span>
+<!--               <span class="text-muted text-bold">Select fractional % to buy below</span><br/> 
+              <span class="text-muted text-bold">Payment via Gallery Wallet address</span> -->
+            </div>
+            <br/>
+        </row>
+        <row class="mt-2 mb-2">
+          <hr class="mb-0">
+          <div class="form-check mb-2">
+          	<input type="checkbox" class="form-check-input" id="buyback">
+          	<label class="form-check-label small" for="buyback">I understand this artwork has a
+              <span class="artwork-buy"> buyback option.</span>
+            </label>
+          </div>
+        </row>
+        <row>
+          <!-- GET from Taurus API the maximum fractional % available; then calculate the amount that can be purchaed based on what the buyer enters -->
+          <div class="form-group ml-0">
+            <span class="text-bold">Enter the percent you’d like to buy of this artwork?<br/> 
+            (between 10 and 49%)</span> 
+            <input class="form-control col-md-4 mb-2" type="number" min="0.5" max="49" placeholder="% buy">
+            <input class="form-control col-md-4 mb-2" type="number" placeholder="= US Dollars" disabled>
+            <input class="form-control col-md-4 mb-0" type="number" placeholder="= LOOK" disabled>
+<!--             <span class="small">= US Dollars = LOOK</span> -->
+          </div>
+        </row>
+        <row>
+<!--             <div class="ml-0">
+              <span class="text-bold">Gallery Wallet Address</span> 
+              <label for="walletAddress" class="sr-only">Gallery Wallet Address</label>
+              <input type="text" class="form-control mb-0" id="wallet_address" name="wallet_address" placeholder="0x4Ea07591d542d702b78CE3851b9773AC14E14b09" value="" required="">
+              <p class="small">Copy the Gallery Wallet Address above.  Then go to Coinbase and paste the Gallery Wallet Address into a send ETH payment form and complete the transaction for the LOOK amount. Return to this page and click Payment Sent. 
+            </div> -->
+            <div class="ml-0">
+              <span class="text-bold">Look Lateral Wallet Address</span> 
+              <label for="walletAddress" class="sr-only">Look Lateral Wallet Address</label>
+              <input type="text" class="form-control mb-0" id="wallet_address" name="wallet_address" placeholder="0x0d1FaE9Ae65d22355b2Ef1246F3c4778082742aF" value="" required="">
+              <p class="small">To complete reservation of this artwork, payment must be sent to Look Lateral. 1. Copy the Look Lateral Wallet Address above.  2. Go to Metamask and paste the Look Lateral Wallet Address into the SEND TRANSACTION form for the = LOOK amount; click NEXT and complete the transaction. 3. Return to this page after payment is confirmed.</p> 
+            </div>
+        </row>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary payment" data-dismiss="modal">Reserve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap carousel with controls -->
+<div class="container mb-2 mt-4">
+	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+	  <div class="carousel-inner">
+	    <div class="carousel-item active">
+	      <img class="d-block w-100" data-src="holder.js/800x400?auto=yes&amp;bg=777&amp;fg=555&amp;text=Art Object Photo" alt="Art Object Photo [800x400]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1630039b0d4%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1630039b0d4%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.5546875%22%20y%3D%22218.4546875%22%3EArt%20Object%20Photo%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+	    </div>
+	    <div class="carousel-item">
+	      <img class="d-block w-100" data-src="holder.js/800x400?auto=yes&amp;bg=777&amp;fg=555&amp;text=First slide" alt="First slide [800x400]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1630039b0d4%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1630039b0d4%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.5546875%22%20y%3D%22218.4546875%22%3EArt%20Object%20Photo%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+	    </div>
+	    <div class="carousel-item">
+	      <img class="d-block w-100" data-src="holder.js/800x400?auto=yes&amp;bg=777&amp;fg=555&amp;text=First slide" alt="First slide [800x400]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1630039b0d4%20text%20%7B%20fill%3A%23555%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1630039b0d4%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285.5546875%22%20y%3D%22218.4546875%22%3EArt%20Object%20Photo%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+	    </div>
+	  </div>
+	  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	    <span class="sr-only">Previous</span>
+	  </a>
+	  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	    <span class="sr-only">Next</span>
+	  </a>
+	</div>
+</div>
+
+<!-- Artwork metadata -->
+<section class="container">
+    <div class="row">
+  		<div class="card-body d-flex flex-column align-items-start">
+        <div class="row ml-0">
+    			<h3 class="mb-0">
+    				<a class="text-dark" href="#">Artwork Title</a>
+    			</h3>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary ml-3 sell" data-toggle="modal" data-target="#artbuyModal">
+            Reserve
+          </button>
+        </div>
+  			<p>Description</p>
+  			<div class="mb-1 artwork-sell font-weight-bold">For Sale: Value $21,120</div>
+  			<p class="card-text mb-auto text-muted text-bold">Look Lateral</p>
+  			<p class="text-muted text-bold">Token Price 2.89087</p>
+   		</div>
+  	</div>
+</section>
+
+<!-- Bootstrap accordian panel to display open/close sections for Discover Art, My Art, My Financials --> 
+<div class="container">
+  <div class="panel-group" id="accordion">
+  	<div class="panel panel-default" id="panel2">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="dashboard" data-toggle="collapse" data-target="#collapseTwo" 
+             href="#collapseTwo" class="collapsed">Provenance
+            </a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse mt-2">
+            <div class="panel-body">
+              <div class="row mt-4 mb-4">
+                <div class="col-md-12">
+                      <row>
+                          <img data-src="holder.js/100x100" class="rounded float-left mr-2 provenance" alt="100x100" src="/images/thumbnail100.svg" data-holder-rendered="true">
+                          <div class="ml-0">
+                            <span class="text-bold">Certificate</span><br/> 
+                            <span class="text-muted">Small description here. View ></span>
+                          </div>
+                      </row>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <row>
+                    <img data-src="holder.js/100x100" class="rounded float-left mr-2 provenance" alt="100x100" src="/images/thumbnail100-sell.svg" data-holder-rendered="true">
+                    <div class="ml-0">
+                      <span class="text-muted text-bold">Add Provenance</span><br/> 
+                      <span class="text-muted">Templates or Examples Add</span>
+                    </div>
+                  </row>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+

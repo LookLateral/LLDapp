@@ -1,0 +1,48 @@
+<%- include('header.ejs') %>
+
+  <main role="main">
+    <section class="jumbotron signin-create text-center">  
+		<form class="form-signin" action="/register-post" method="post">
+			<h1 class="h3 mb-3 font-weight-normal signin-create">Create Account</h1>
+			<p class="signin-create">Intro Text <br/>
+			* Required Fields</p>
+			<label for="firstName" class="sr-only">First name</label>
+			<input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required value="<% if (typeof FirstName !== 'undefined' && FirstName !== null) { %><%= FirstName %><% } %>">
+			<label for="lastName" class="sr-only">Last name</label>
+			<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required value="<% if (typeof LastName !== 'undefined' && LastName !== null) { %><%= LastName %><% } %>">
+			<label for="inputEmail" class="sr-only">Email</label>
+			<input type="email" id="email" name="email" class="form-control" placeholder="Email address" required value="<% if (typeof Email !== 'undefined' && Email !== null) { %><%= Email %><% } %>">
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+			<label for="country" class="sr-only">Country</label>
+			<select class="custom-select d-block w-100 country form-control" id="country" name="country" required>
+				<option value="" disabled <% if (typeof Country == 'undefined' || Country == null) { %>selected<% } %>>Select a Country</option>
+				<% for (var i = 0; i < Countries.length; i++) { %>
+					<option <% if (typeof Country !== 'undefined' && Country !== null && Country == Countries[i]) { %>selected<% } %>><%= Countries[i] %></option>
+				<% } %>
+			</select>
+			<hr class="signin-create">
+			<div class="custom-control custom-checkbox">
+				<input type="checkbox" class="custom-control-input" id="fimart-membership" checked="checked">
+				<label class="custom-control-label" for="same-address">Fimart Membership included with new accounts. $20 USD fee.</label>
+			</div>
+			<hr class="signin-create">
+			<div class="custom-control custom-checkbox mb-4">
+				<input type="checkbox" class="custom-control-input" id="fimart-membership" checked="checked">
+				<label class="custom-control-label" for="same-address">Agree to the <a href="/termsofservice">terms of service</a></label>
+			</div>
+
+			<p><input type="submit" class="btn btn-secondary signin" value="Create Account"></p>
+		</form>
+    
+		<% if (typeof ErrorText !== 'undefined' && ErrorText !== null) { %>
+			<div class="alert alert-danger alert-dismissible">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<%= ErrorText %>
+			</div>
+		<% } %>
+
+</section>
+</main>
+
+<%- include('footer.ejs') %>

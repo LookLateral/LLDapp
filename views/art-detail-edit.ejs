@@ -1,0 +1,38 @@
+﻿<%# Art publish %>
+
+<%- include('header.ejs') %>
+
+<main role="main">
+	<section class="jumbotron artwork-publish mt-4">
+		<h1 class="h3 mb-3 font-weight-normal artwork-publish text-center">Edit Art</h1>
+		<p class="artwork-publish text-center">* Required Fields</p>  
+			<form class="form-artwork-publish" action="/art-detail-edit-post" method="POST">
+				<input type="hidden" name="artworkId" id="artworkId" value="<%= Artwork.Id %>" />
+				<label for="artwork_title">Title of Work*</label>
+				<input type="text" class="form-control" name="artwork_title" id="artwork_title" placeholder="ex: Portrait of Ottavio Strada" value="<%= Artwork.Title %>" required>
+				<label for="artwork_description">Description*</label>
+				<textarea class="form-control" name="artwork_description" id="artwork_description" rows="3" placeholder="ex: Seventeen-year-old Ottavio Strada is portrayed in an unusual – allegorical – manner." required><%= Artwork.Description %></textarea>
+				<label for="artwork_artist">Artist First, Last Name*</label>
+				<input type="text" class="form-control" name="artwork_artist" id="artwork_artist" placeholder="ex: Jacopo Tintoretto" value="<%= Artwork.Artist %>" required>
+				<label for="artwork_courtesy">Courtesy*</label>
+				<input type="text" class="form-control" name="artwork_courtesy" id="artwork_courtesy" placeholder="Gallery owned or on consignment" value="<%= Artwork.Courtesy %>" required>
+				<label for="artwork_medium">Medium*</label>
+				<input type="text" class="form-control" name="artwork_medium" id="artwork_medium" placeholder="ex: Canvas, Marble" value="<%= Artwork.Medium %>" required>
+				<label for="artwork_created">Date of Creation</label>
+				<input type="text" class="form-control" name="artwork_created" id="artwork_created" placeholder="ex: 1560" value="<%= Artwork.WorkCreated %>" required>
+				<hr class="mt-2">
+				<p><input type="submit" class="btn btn-secondary publish" value="Save"></p>
+			</form>
+	</section>
+</main>
+
+<% if (typeof ErrorText !== 'undefined' && ErrorText !== null && ErrorText != '') { %>
+	<div class="container">
+		<div class="alert alert-danger alert-dismissible">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<%= ErrorText %>
+		</div>
+	</div>
+<% } %>
+
+<%- include('footer.ejs') %>

@@ -1,0 +1,408 @@
+﻿<%# Art Detail %>
+
+<%- include('header.ejs') %>
+
+<script type="application/javascript">
+	/*<![CDATA[*/
+	$(document).ready(function()
+	{
+		$("#percentage").bind('keyup change click', function (e) 
+		{
+			if (!$(this).data("previousValue") || $(this).data("previousValue") != $(this).val())
+			{
+				$(this).data("previousValue", $(this).val());
+
+				var percent = $(this).val();
+
+				if (percent > 0)
+				{
+					var amountInDollars = <%= Artwork.Price %> * (percent / 100.0);
+					var dollarPrice = formatCurrency(amountInDollars);
+					var purchaseTokens = amountInDollars * <%= ExchangeRateLook %>;
+					var purchaseTransactionId = getRandomInt(1000, 9999).toString();
+					var reserveTokens = amountInDollars * <%= ExchangeRateReserve %>;
+					var reserveTransactionId = getRandomInt(1000, 9999).toString();
+
+					$('#dollars').val(dollarPrice);
+					$('#purchaseTokens').val(purchaseTokens.toFixed(6));
+					$('#purchaseTransactionId').val(purchaseTransactionId);
+					$('#reserve').val(reserveTokens.toFixed(6) + reserveTransactionId);
+					$('#reserveTokens').val(reserveTokens.toFixed(6));
+					$('#reserveTransactionId').val(reserveTransactionId);
+				}
+			}
+		});
+	});
+
+	function formatCurrency(n, sep, decimals) 
+	{
+		sep = sep || ".";
+		decimals = decimals || 2;
+		return	'$' +
+				n.toLocaleString().split(sep)[0] +
+				sep +
+				n.toFixed(decimals).split(sep)[1];
+	}
+
+	function getRandomInt(min, max) 
+	{
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	/*]]>*/
+</script>
+
+<!-- Bootstrap modal to approve an artwork for sale -->
+<div class="modal fade" id="artApproveModal" tabindex="-1" role="dialog" aria-labelledby="artApproveModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="artApproveModalLabel">Approve This Artwork</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <form action="/art-detail-approve" method="GET">
+		<input type="hidden" name="artworkId" id="artworkId" value="<%= Artwork.Id %>" />
+		  <div class="modal-body">
+				<row>
+					<div>To approve this artwork for sale, click <b>Approve</b>.</div>
+				</row>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" name="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<button type="submit" name="btnApprove" value="Approve" class="btn btn-primary">Approve</button>
+		  </div>
+	  </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap modal to complete an artwork purchase -->
+<div class="modal fade" id="artBuyModal" tabindex="-1" role="dialog" aria-labelledby="artBuyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="artBuyModalLabel">Buy This Artwork</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  	  <form action="/art-detail-buy-post" method="POST">
+		  <input type="hidden" name="artworkId" id="artworkId" value="<%= Artwork.Id %>" />
+		  <input type="hidden" name="galleryId" id="galleryId" value="<%= Artwork.GalleryId %>" />
+
+		  <div class="modal-body">
+			<row class="mt-2 mb-2">
+			  <div class="form-check mb-2">
+          		<input type="checkbox" class="form-check-input" id="buyback" name="buyback" required>
+          		<label class="form-check-label small" for="buyback">I understand this artwork has a <span class="artwork-buy">buyback option</span>.
+				</label>
+			  </div>
+			</row>
+			<row>
+			  <div class="form-group ml-0">
+				<input class="form-control col-md-4 mb-2" value="<%= BuyDollars %>" id="dollarsStatic" name="dollarsStatic" type="text" placeholder="= US Dollars" disabled>
+				<input class="form-control col-md-4 mb-0" value="<%= BuyTokens %>" id="lookStatic" name="lookStatic" type="text" placeholder="= LOOK" disabled>
+			  </div>
+			</row>
+			<row>
+				<div class="ml-0">
+				  <span class="text-bold">Gallery Wallet Address</span> 
+				  <label for="walletAddress" class="sr-only">Gallery Wallet Address</label>
+				  <input type="text" class="form-control mb-0" id="wallet_address" name="wallet_address" value="<%= GalleryWalletAddress %>" disabled>
+
+				  <p class="small"><br/>Your Fractional Ownership of the artwork has been reserved for you, but you still need to complete the transaction by paying the seller. 
+				  Since your requested fractional ownership percentage has been reserved for you, it is safe to transfer LOOK tokens to the seller. 
+				  As soon as this is confirmed, the ownership ledger on the blockchain will be updated, and ownership credited to you.</p>
+
+				  <p class="small">To complete the purchase of your portion of this artwork, payment must be sent to the owner directly from your wallet. 
+				  Due to regulatory constraints, Look Lateral is not able to conduct this transaction on your behalf.</p>
+				  <ol>
+					<li class="small">Copy the Gallery Wallet Address above.</li>
+					<li class="small">Go to <a href="https://www.myetherwallet.com/#send-transaction">MyEtherWallet</a> and paste the Gallery Wallet Address into <b>To Address</b>.</li>
+					<li class="small">Ensure LOT is selected from the dropdown box in the <b>Amount to Send</b> field.</li>
+					<li class="small">Paste the LOOK purchase amount into <b>Amount to Send</b>.</li>
+					<li class="small">Click the <b>Generate Transaction</b> button.</li>
+					<li class="small">After transaction is generated, click <b>Send Transaction</b>.</li>
+					<li class="small">In the popup window that will appear, click <b>Yes I am sure! Make transaction</b>.</li>
+					<li class="small"><b>Please read the green box at the bottom of your MyEtherWallet page. 
+					Look Lateral does not control the how long it takes for transactions to be recorded on the blockchain.</b> </li>
+					<li class="small">Return to Look Lateral, and click on <b>Buy</b>.</li>
+					<li class="small">To confirm the status of your purchase, go to the Transaction Status drop down in your Dashboard. 
+					You will see that the transaction status has changed from <b>Reservation Complete</b> to <b>Pending Payment</b>. </li>
+				  </ol>
+				</div>
+			</row>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<button type="submit" name="btnBuy" value="Buy" class="btn btn-primary">Buy</button>
+		  </div>
+		</form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap modal to start an artwork reservation -->
+<div class="modal fade" id="artReserveModal" tabindex="-1" role="dialog" aria-labelledby="artReserveModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="artReserveModalLabel">Reserve This Artwork</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+  	  <form action="/art-detail-reserve-post" method="POST">
+		  <input type="hidden" name="artworkId" id="artworkId" value="<%= Artwork.Id %>" />
+		  <input type="hidden" name="galleryId" id="galleryId" value="<%= Artwork.GalleryId %>" />
+		  <input type="hidden" name="purchaseTokens" id="purchaseTokens" />
+		  <input type="hidden" name="purchaseTransactionId" id="purchaseTransactionId" />
+		  <input type="hidden" name="reserveTokens" id="reserveTokens" />
+		  <input type="hidden" name="reserveTransactionId" id="reserveTransactionId" />
+
+		  <div class="modal-body">
+			<row class="mt-2 mb-2">
+			  <div class="form-check mb-2">
+          		<input type="checkbox" class="form-check-input" id="buyback" name="buyback" required>
+          		<label class="form-check-label small" for="buyback">I understand this artwork has a <span class="artwork-buy">buyback option</span>.
+				</label>
+			  </div>
+			</row>
+			<row>
+			  <div class="form-group ml-0">
+				<span class="text-bold">Enter the percentage you'd like to buy of this artwork:<br/> 
+				(between 1 and <%= (Artwork.FractionalizedPercentage - Artwork.TotalPurchased) %>%)</span> 
+				<input class="form-control col-md-4 mb-2" type="number" id="percentage" name="percentage" step="1" min="1" max="<%= (Artwork.FractionalizedPercentage - Artwork.TotalPurchased) %>" placeholder="% buy" required>
+				<input class="form-control col-md-4 mb-2" id="dollars" name="dollars" type="text" placeholder="= US Dollars" disabled>
+				<input class="form-control col-md-4 mb-0" id="reserve" name="reserve" type="text" placeholder="= LOOK Reserve Fee" readonly>
+			  </div>
+			</row>
+			<row>
+				<div class="ml-0">
+				  <span class="text-bold">Look Lateral Wallet Address</span> 
+				  <label for="walletAddress" class="sr-only">Look Lateral Wallet Address</label>
+				  <input type="text" class="form-control mb-0" id="wallet_address" name="wallet_address" value="<%= SystemWalletAddress %>" disabled>
+
+				  <p class="small"><br/>Purchasing Fractional Ownership of this artwork is a two-stage process. Due to the time it takes to post transactions to the blockchain, 
+				  you must first reserve the fractions prior to purchasing them. To complete the reservation step, follow the steps below. This includes sending a small 
+				  amount of LOOK to Look Lateral. For convenience, this amount will be equal to your transaction fee. When you enter the % of the artwork you wish to reserve, 
+				  the LOOK field will automatically update to the appropriate transaction fee.</p>
+
+				  <p class="small">To complete the purchase of your portion of this artwork, payment must be sent to the Look Lateral directly from your wallet. 
+				  Due to regulatory constraints, Look Lateral is not able to conduct this transaction on your behalf.</p>
+
+				  <p class="small">To reserve your fractions of this artwork, payment must be sent to Look Lateral:</p>
+
+				  <ol>
+					<li class="small">Copy the Look Lateral Wallet Address above.</li>
+					<li class="small">Go to <a href="https://www.myetherwallet.com/#send-transaction">MyEtherWallet</a> and paste the Look Lateral Wallet Address into <b>To Address</b>.</li>
+					<li class="small">Ensure LOT is selected from the dropdown box in the <b>Amount to Send</b> field.</li>
+					<li class="small">Paste the LOOK purchase amount into <b>Amount to Send</b>.</li>
+					<li class="small">Click the <b>Generate Transaction</b> button.</li>
+					<li class="small">After the transaction is generated, click <b>Send Transaction</b>.</li>
+					<li class="small">In the popup window that will appear, click <b>Yes I am sure! Make transaction</b>.</li>
+					<li class="small"><b>Please read the green box at the bottom of your MyEtherWallet page. Look Lateral does not control the how long it takes for transactions to be 
+					recorded on the blockchain.</b></li>
+					<li class="small">Return to Look Lateral, and click on <b>Reserve</b>.</li>
+					<li class="small">From time to time, check the Transaction Status drop down in your dashboard. Once the status of the transaction has been updated to <b>Reservation Complete</b>, 
+					click on the name of the piece in the transaction status list. This will take you to the artwork detail page. 
+					Notice that the ‘Reserve’ button has changed to a ‘Buy’ button. Click this button to complete the transaction process, and follow the directions in the popup window. </li>
+				  </ol>
+				</div>
+			</row>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<button type="submit" name="btnReserve" value="Reserve" class="btn btn-primary">Reserve</button>
+		  </div>
+		</form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap modal to make an artwork sellable -->
+<div class="modal fade" id="artSellModal" tabindex="-1" role="dialog" aria-labelledby="artSellModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="artSellModalLabel">Sell This Artwork</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <form action="/art-detail-sell-post" method="POST">
+		  <input type="hidden" name="artworkId" id="artworkId" value="<%= Artwork.Id %>" />
+		  <input type="hidden" name="galleryId" id="galleryId" value="<%= Artwork.GalleryId %>" />
+		  <div class="modal-body">
+			<row class="mt-2">
+			  <div class="small">Note: You can cancel until someone buys. You have a right to buy back at any time with + 5%.</div>
+			  <div class="form-group ml-0 mt-2">
+				  <span class="text-bold">Enter USD price</span> 
+				  <input class="form-control col-md-4" type="number" name="price" placeholder="$USD" required>
+			  </div>
+			</row>
+			<row>
+			  <div class="form-group ml-0">
+				  <span class="text-bold">Enter the percent you’d like to sell of this artwork?<br/> 
+				  (between 10 and 49%)</span> 
+				  <input class="form-control col-md-4" type="number" name="percentage" min="10" max="49" placeholder="% sell" required>
+			  </div>
+			</row>
+			<row class="mt-2 mb-2">
+			  <div class="form-check mb-0">
+				<input type="checkbox" class="form-check-input" id="buyback" required>
+				<label class="form-check-label small" for="buyback">You are entering into a legally binding contract to sell fractional ownership of this art. You warrant, as an individual member, 
+				that you have full rights to sell this piece of art and that you agree to the Terms of Service.   
+				</label>
+			  </div>
+			</row>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" name="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<button type="submit" name="btnSell" value="Sell" class="btn btn-primary">Sell</button>
+		  </div>
+	  </form>
+    </div>
+  </div>
+</div>
+
+<% if (Artwork.ArtworkImages.length > 0) { %>
+	<!-- Bootstrap carousel with controls -->
+	<div class="container mb-2 mt-4">
+		<div id="carouselControls" class="carousel slide" data-ride="carousel">
+
+		  <div class="carousel-inner">
+
+		  <% for (var imageIndex = 0; imageIndex < Artwork.ArtworkImages.length; imageIndex++) { %>
+
+				<div class="carousel-item <% if (imageIndex == 0) { %> active <% } %>">
+				  <img class="d-block w-100" alt="Artwork Image" src="<%= ApiServer %>/stream/image/<%= Artwork.ArtworkImages[imageIndex].Id %>" data-holder-rendered="true">
+				</div>
+
+		  <% } %>
+
+		  </div>
+
+		  <% if (Artwork.ArtworkImages.length > 1) { %>
+			  <a class="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			  </a>
+			  <a class="carousel-control-next" href="#carouselControls" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			  </a>
+		  <% } %>
+
+		</div>
+	</div>
+<% } %>
+
+<!-- Artwork metadata -->
+<section class="container">
+    <div class="row">
+  		<div class="card-body d-flex flex-column align-items-start">
+			<div class="row ml-0">
+					<!-- New Buy state needs to be added after Reserve is complete -->
+    				<h3 class="mb-0 text-dark"><%= Artwork.Title %></h3>
+					<% if (!Artwork.Approved && IsSysAdmin) { %>
+					  <button type="button" class="btn btn-primary ml-3 sell" data-toggle="modal" data-target="#artApproveModal">
+						Approve
+					  </button>
+					<% } else if (!Artwork.Sellable && IsGalleryOwner) { %>
+					  <button type="button" class="btn btn-primary ml-3 sell" data-toggle="modal" data-target="#artSellModal">
+						Sell
+					  </button>
+					<% } else if (Artwork.Sellable && !IsGalleryOwner) { %>
+						<% if (ArtworkOwnerStatus == 0 && (Artwork.FractionalizedPercentage > Artwork.TotalPurchased)) { %>
+						  <button type="button" class="btn btn-primary ml-3 sell" data-toggle="modal" data-target="#artReserveModal">
+							Reserve
+						  </button>
+						<% } else if (ArtworkOwnerStatus == 2) { %>
+						  <button type="button" class="btn btn-primary ml-3 sell" data-toggle="modal" data-target="#artBuyModal">
+							Buy
+						  </button>
+						<% } %>
+					<% } %>
+			</div>
+  			<p><%= Artwork.Description %></p>
+			<p><b>Artist:</b> <%= Artwork.Artist %></p>
+
+			<% if (Artwork.Medium) { %>
+				<p><b>Media:</b> <%= Artwork.Medium %></p>
+			<% } %>
+
+			<% if (Artwork.Dimensions) { %>
+				<p><b>Dimensions:</b> <%= Artwork.Dimensions %></p>
+			<% } %>
+
+			<% if (Artwork.Edition) { %>
+				<p><b>Edition:</b> <%= Artwork.Edition %></p>
+			<% } %>
+
+			<% if (Artwork.Courtesy) { %>
+				<p><b>Courtesy:</b> <%= Artwork.Courtesy %></p>
+			<% } %>
+
+			<% if (Artwork.Sellable) { %>
+  				<div class="mb-1 artwork-sell font-weight-bold">Total value: <%= Price %></div>
+  				<div class="mb-1 artwork-sell font-weight-bold">Percentage available for purchase: <%= (Artwork.FractionalizedPercentage - Artwork.TotalPurchased) %>%</div>
+
+				<% if (Artwork.FractionalizedPercentage - Artwork.TotalPurchased > 0) { %>
+  					<div class="mb-1 artwork-sell font-weight-bold">Value of available percentage: <%= RemainingPrice %></div>
+  					<p class="card-text mb-auto text-muted text-bold">Look Lateral token price: <%= LookLateralTokenPrice %></p>
+				<% } %>
+			<% } %>
+			<div class="row ml-0">
+				<% if (Artwork.HasQRCode) { %>
+  							<img class="rounded float-left mr-2 provenance" src="<%= ApiServer %>/stream/qrcode/<%= Artwork.Id %>" data-holder-rendered="true">
+  				<% } %>
+			</div>
+   		</div>
+  	</div>
+</section>
+
+<!-- Provenance items -->
+<% if (Artwork.ArtworkProvenances && Artwork.ArtworkProvenances.length > 0) { %>
+<div class="container">
+  <div class="panel-group" id="accordion">
+
+      <div class="panel panel-default" id="panel1">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="dashboard" data-toggle="collapse" data-target="#collapseOne" 
+             href="#collapseOne" class="collapsed">Provenance</a>
+          </h4>
+        </div>
+
+		<div id="collapseOne" class="panel-collapse collapse">
+			<div class="panel-body">
+				<% Artwork.ArtworkProvenances.forEach(function(Provenance) { %>
+						<img data-src="holder.js/100x100" class="rounded float-left mr-2 provenance" alt="100x100" src="/images/thumbnail100.svg" data-holder-rendered="true">
+						<p class="metadata-title mb-0">
+							<a href="<%= ApiServer %>/stream/provenance/<%= Provenance.Id %>" target="_blank">
+								<%= Provenance.FileName %>
+							</a>
+						</p>
+				<% }); %>
+			</div>
+		</div>
+
+	  </div>
+  </div>
+</div>
+<% } %>
+
+<% if (typeof ErrorText !== 'undefined' && ErrorText !== null && ErrorText != '') { %>
+<div class="container">
+	<div class="alert alert-danger alert-dismissible">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<%= ErrorText %>
+	</div>
+</div>
+<% } %>
+
+<%- include('footer.ejs') %>

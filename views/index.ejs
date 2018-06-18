@@ -1,0 +1,34 @@
+<%- include('header.ejs') %>
+
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/album.css' />
+    <link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+  	<main role="main">
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Welcome</h1>
+          <p class="lead text-muted">Buy and Sell fractional ownership of artwork.</p>
+          <p>
+            <a href="/how-it-works" class="btn btn-primary my-2 landing-page">How it Works</a>
+          </p>
+        </div>
+      </section>
+      <div class="jumbotron registration">
+        <div class="row">
+          <div class="col-lg-6">
+            <h2>NEW MEMBER</h2>
+            <p><a class="btn btn-secondary landing-page" href="/register" role="button">Create Account</a></p>
+          </div><!-- /.col-lg-6 -->
+          <div class="col-lg-6">
+            <h2>EXISTING MEMBER</h2>
+            <p><a class="btn btn-secondary landing-page" href="/login" role="button">Sign In</a></p>
+          </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+      </div>
+    </main>
+  </body>
+</html>

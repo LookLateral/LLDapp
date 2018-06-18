@@ -1,0 +1,136 @@
+<%# Art publish %>
+
+<%- include('header.ejs') %>
+
+  <main role="main">
+    <section class="jumbotron artwork-publish">  
+      <form class="form-artwork-publish">
+        <h1 class="h3 mb-3 font-weight-normal artwork-publish text-center">Publish Art</h1>
+        <p class="artwork-publish text-center">Provide the following information and material to publish artwork.<br/>
+        * Required Fields</p>
+        <label for="artist-first-name">Artist First Name*</label>
+        <input type="text" class="form-control" id="artist-first-name" placeholder="ex: Marietta" value="" required="">
+        <label for="artist-middle-name">Artist Middle Name</label>
+        <input type="text" class="form-control" id="artist-middle-name" placeholder="ex: none" value="" required="">
+        <label for="artist-last-name">Artist Last Name*</label>
+        <input type="text" class="form-control" id="artist-last-name" placeholder="ex: Robusti" value="" required="">
+        <label for="artist-dob">Artist DOB</label>
+        <input type="date" class="form-control" id="artist-dob" placeholder="ex: 1560" value="" required="">
+        <label for="artist-death-date">Artist Death Date</label>
+        <input type="date" class="form-control" id="artist-death-date" placeholder="ex: 1590" value="" required="">
+        <label for="artist-country-birth">Artist Country of Birth</label>
+        <select class="custom-select d-block w-100 country form-control" id="artist-country-birth" required="">
+          <option value="">Select Country</option>          
+          <option>Italy</option>
+          <option>United States</option>
+        </select>
+        <label for="artist-country-residence">Artist Country of Residence</label>
+        <select class="custom-select d-block w-100 country form-control" id="artist-country-residence" required="">
+          <option value="">Select Country</option>
+          <option>Italy</option>
+          <option>United States</option>
+        </select>
+        <label for="title-of-work">Title of Work*</label>
+        <input type="text" class="form-control" id="title-of-work" placeholder="ex: Portrait of Ottavio Strada" value="" required="">
+        <label for="hero-marketing-image">"Hero" Marketing Image* (.jpg)</label>
+        <input type="file" class="form-control" id="hero-marketing-image" placeholder="Hero Marketing Image*" value="" required="">
+        <label for="additional-marketing-image">Additional Marketing Image (.jpg) </label>        
+        <input type="file" class="form-control" id="additional-marketing-image" placeholder="Additional Marketing Image*" value="" required="">
+        <label for="front-image-qr">Front Image with QR Code* (.jpg)</label>        
+        <input type="file" class="form-control" id="front-image-qr" placeholder="Front Image with QR Code*" value="" required="">
+        <label for="back-image-qr">Back Image with QR Code* (.jpg)</label>        
+        <input type="file" class="form-control" id="back-image-qr" placeholder="Back Image with QR Code*" value="" required="">
+        <label for="signature-closeup-qr">Signature Closeup with QR Code (.jpg)</label>        
+        <input type="file" class="form-control" id="signature-closeup-qr" placeholder="Signature Closeup with QR Code" value="" required="">
+        <label for="dimensions">Dimensions*</label>
+        <input type="number" class="form-control" id="dimensions" placeholder="Length x Height" value="" required="">
+        <label for="weight">Weight</label>
+        <input type="number" class="form-control" id="weight" placeholder="Kilograms" value="" required="">
+        <label for="artwork-year">Year of Artwork*</label>
+        <input type="date" class="form-control" id="artwork-year" placeholder="ex: 1567" value="" required="">
+        <label for="media">Media*</label>
+        <input type="text" class="form-control" id="media" placeholder="ex: Oil on canvas" value="" required="">
+        <label for="technique">Technique</label>
+        <input type="text" class="form-control" id="technique" placeholder="ex: TODO" value="" required="">
+        <label for="is-edition">Is Edition*</label>
+        <select class="form-control" id="is-edition">
+          <option>Yes or No</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+        <label for="yes-edition-number">Yes Edition - Edition #*</label>
+        <input type="number" class="form-control" id="yes-edition-number" placeholder="ex: TODO" value="" required="">
+        <label for="yes-edition-total-number">Yes Edition - Total # in edition*</label>
+        <input type="number" class="form-control" id="yes-edition-total-number" placeholder="ex: TODO" value="" required="">
+        <label for="yes-edition-number-piece">Yes Edition - # of this piece within the edition*</label>
+        <input type="number" class="form-control" id="yes-edition-number-piece" placeholder="ex: TODO" value="" required="">
+        <label for="yes-edition-artist-proof">Yes Edition - AP (artist proof)</label>
+        <input type="number" class="form-control" id="yes-edition-artist-proof" placeholder="ex: TODO" value="" required="">
+        <label for="signature">Signature</label>
+        <select class="form-control" id="signature">
+          <option>Yes or No</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+        <label for="signature-location">Signature Location</label>
+        <input type="text" class="form-control" id="signature-location" placeholder="ex: TODO" value="" required="">
+        <label for="courtesy-ownership">Courtesy/Ownership*</label>
+        <input type="text" class="form-control" id="signature-location" placeholder="ex: TODO" value="" required="">
+        <label for="current-location-country">Current Location Country*</label>
+        <select class="custom-select d-block w-100 country form-control" id="current-location-country" required="">
+          <option>Select Country</option>
+          <option>United States</option>
+          <option>Italy</option>
+        </select>
+        <label for="current-location-city">Current Location City*</label>
+        <select class="custom-select d-block w-100 country form-control" id="current-location-city" required="">
+          <option>Select City</option>
+          <option>Seattle</option>
+          <option>Verona</option>
+        </select>
+        <label for="current-location-gallery">Current Location Gallery</label>
+        <input type="text" class="form-control" id="current-location-gallery" placeholder="ex: TODO" value="" required="">
+        <label for="ownership-document-1">Ownership Document 1 (.pdf)</label>        
+        <input type="file" class="form-control" id="ownership-document-1" placeholder="ex: Bill of Sale" value="" required="">
+        <label for="ownership-document-2">Ownership Document 2 (.pdf)</label>        
+        <input type="file" class="form-control" id="ownership-document-2" placeholder="ex: Consignment Agreement" value="" required="">
+        <label for="certificate-authenticity">Certificate of Authenticity (.pdf)</label>        
+        <input type="file" class="form-control" id="certificate-authenticity" placeholder="ex: TODO" value="" required="">
+        <label for="current-condition">Current Condition*</label>
+        <select class="custom-select d-block w-100 country form-control" id="current-condition" required="">
+          <option>Select Condition</option>
+          <option>New</option>
+          <option>Good</option>
+          <option>Fair</option>
+          <option>Poor</option>
+        </select>
+        <label for="condition-report">Condition Report (.pdf)</label>        
+        <input type="file" class="form-control" id="condition-report" placeholder="ex: TODO" value="" required="">
+        <label for="owner-notes">Notes from Owner</label>
+        <input type="text" class="form-control" id="owner-notes" placeholder="ex: TODO" value="" required="">
+        <label for="last-known-price">Last Known Price ($USD)</label>
+        <input type="number" class="form-control" id="last-known-price" placeholder="ex: $21,318" value="" required="">
+        <label for="exhibition-display-history">Exhibition/Display History</label>
+        <input type="text" class="form-control" id="exhibition-display-history" placeholder="ex: TODO" value="" required="">
+        <label for="publications">Publications</label>
+        <input type="text" class="form-control" id="publications" placeholder="ex: TODO" value="" required="">
+        <label for="who-writes">Who writes about it</label>
+        <input type="text" class="form-control" id="who-writes" placeholder="ex: TODO" value="" required="">
+        <label for="other-identifying-marks">Other identifying marks</label>
+        <input type="text" class="form-control" id="other-identifying-marks" placeholder="ex: TODO" value="" required="">
+        <label for="conservation-work-performed">Conservation work performed?</label>
+        <select class="form-control" id="conservation-work-performed">
+          <option>Yes or No</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+        <label for="conservation-report">Conservation Report (.pdf)</label>        
+        <input type="file" class="form-control" id="conservation-report" placeholder="ex: TODO" value="" required="">
+        <div class="invalid-feedback">
+          Please select a valid country.
+        </div>
+        <hr class="mt-2">
+        <p><a class="btn btn-secondary landing-page" href="#" role="button">Publish</a></p>
+      </form>
+    </section>
+  </main>

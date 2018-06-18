@@ -1,0 +1,211 @@
+<%# Sysadmin Art List %>
+
+<%- include('header.ejs') %>
+ 
+<script type="application/javascript">
+	/*<![CDATA[*/
+	$(document).ready(function()
+	{
+		$('#artDeleteModal').on('show.bs.modal', function (event) {
+		  var artId = $(event.relatedTarget).data('val');
+		  $(this).find("#artworkId").val(artId);
+		});	
+		
+		$('#galleryDeleteModal').on('show.bs.modal', function (event) {
+		  var galId = $(event.relatedTarget).data('val');
+		  $('#galleryId').val(galId);
+		});	
+
+		$('#galleryConfirmDeleteModal').on('show.bs.modal', function (event) {
+		  $('#galleryDeleteModal').modal('toggle');
+		});	
+	});
+	/*]]>*/
+</script>
+
+<!-- Bootstrap modal to delete an artwork -->
+<div class="modal fade" id="artDeleteModal" tabindex="-1" role="dialog" aria-labelledby="artDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="artDeleteModalLabel">Delete Artwork</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <form action="/art-delete-post" method="POST">
+		<input type="hidden" name="artworkId" id="artworkId" value="0" />
+		<div class="modal-body">
+			<row>
+				<div>Do you really want to delete this artwork?</div>
+				<div class="text-danger"><br/><b>Deleting an artwork cannot be undone!</b></div>
+			</row>
+		</div>
+		<div class="modal-footer">
+			<button type="button" name="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<button type="submit" name="btnDelete" value="Delete" class="btn btn-primary">Delete</button>
+		</div>
+	  </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap modal to delete a gallery -->
+<div class="modal fade" id="galleryDeleteModal" tabindex="-1" role="dialog" aria-labelledby="galleryDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="galleryDeleteModalLabel">Delete Gallery</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <div class="modal-body">
+		<row>
+			<div>Do you really want to delete this gallery?</div>
+			<div class="text-danger"><br/><b>Deleting an gallery cannot be undone!</b></div>
+		</row>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" name="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		<button type="button" name="btnDelete" class="btn btn-primary" data-toggle="modal" data-target="#galleryConfirmDeleteModal">Delete</button>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap modal to confirm deletion of a gallery -->
+<div class="modal fade" id="galleryConfirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="galleryConfirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="galleryConfirmDeleteModalLabel">Confirm Gallery Deletion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+	  <form action="/gallery-delete-post" method="POST">
+		<input type="hidden" name="galleryId" id="galleryId" value="0" />
+		<div class="modal-body">
+			<row>
+				<div>Click <b>Delete</b> to confirm deletion of the gallery</div>
+				<div class="text-danger"><br/><b>Remember: deleting an gallery cannot be undone!</b></div>
+			</row>
+		</div>
+		<div class="modal-footer">
+			<button type="button" name="btnCancel" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<button type="submit" name="btnConfirmDelete" value="Delete" class="btn btn-primary">Delete</button>
+		</div>
+	  </form>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+	<div class="row mt-4 mb-4">
+		<h1 class="text-muted text-bold page-title">Sysadmin Manage Art</h1>
+	</div>
+	<div class="row">
+		<h3 class="text-muted text-bold page-title">Add New Gallery / Artwork</h3>
+	</div>
+	<div class="row">
+		<p class="small">Instructions: 1. Publish Metadata. 2. Get ArtworkID from Existing Galleries / Artwork list. 3. Publish Images, Provenance, QR Code, Thumbnail with the ArtworkID.</p>
+	</div>
+	<div class="row">	
+		<a href="/art-publish" class="mt-1 ml-4">Metadata</a>
+		<a href="/art-publish-image" class="mt-1 ml-4">Images</a>
+		<a href="/art-publish-provenance" class="mt-1 ml-4">Provenance</a>
+		<a href="/art-publish-qrcode" class="mt-1 ml-4">QR Code</a>
+		<a href="/art-publish-thumbnail" class="mt-1 ml-4">Thumbnail</a>
+	</div>
+	<hr>
+	<div class="row">
+		<h3 class="text-muted text-bold page-title">Existing Galleries / Artwork</h3>
+	</div>
+    <!-- Taurus API call for all published art, uploaded by gallery owners or sysadmins -->
+    <div class="table-responsive mt-2">
+    	<% Galleries.forEach(function(Gallery) { %>
+		<h4><%= Gallery.Title %> <button type="button" class="btn btn-danger btn-sm" data-val="<%= Gallery.Id %>" data-toggle="modal" data-target="#galleryDeleteModal">Delete gallery</button></h4>
+    	<table class="table table-hover">
+		  <thead>
+		    <tr>
+		      <th scope="col" class="w-7">Artwork ID</th>
+		      <th scope="col" class="w-7">Title</th>
+		      <th scope="col" class="w-16">Description</th>
+		      <th scope="col" class="w-7">Artist</th>
+		      <th scope="col" class="w-7">Courtesy</th>
+		      <th scope="col" class="w-7">Medium</th>
+		      <th scope="col" class="w-7">Work Created</th>
+		      <th scope="col" class="w-7">Image File</th>
+		      <th scope="col" class="w-7">Provenance</th>
+		      <th scope="col" class="w-7">QR Code</th>
+		      <th scope="col" class="w-7">Owner</th>
+		      <th scope="col" class="w-7">Approved</th>
+		      <th scope="col" class="w-7">Fractionalized</th>
+		      <th scope="col" class="w-7">%</th>
+		      <th scope="col" class="w-7">LL Price</th>
+		      <th scope="col" class="w-7">USD</th>
+		      <th scope="col" class="w-7">Sellable</th>
+		      <th scope="col" class="w-7">Total Purchased</th>
+		      <th scope="col" class="w-7"></th>
+		      <th scope="col" class="w-7"></th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  <% Gallery.Artworks.forEach(function(Artwork) { %>	
+			    <tr>
+			      <td class="w-7"><a href="/art-detail?artworkId=<%= Artwork.Id %>"><%= Artwork.Id %></a></td>
+			      <td class="w-7"><%= Artwork.Title %></td>
+			      <td class="w-16"><%= Artwork.Description %></td>
+			      <td class="w-7"><%= Artwork.Artist %></td>
+				  <td class="w-7"><%= Artwork.Courtesy %></td>
+				  <td class="w-7"><%= Artwork.Medium %></td>
+				  <td class="w-7"><%= Artwork.WorkCreated %></td>
+				  <td class="w-7">
+					<% if (Artwork.ArtworkImages.length > 0) { %>
+						<% Artwork.ArtworkImages.forEach(function(img) { %>
+							<a href="<%= ApiServer %>/stream/image/<%= img.Id %>" target="_blank">
+								<%= img.FileName %>
+							</a>
+						<% }); %>
+					<% } %>
+				  </td>
+				  <td class="w-7">
+					<% if (Artwork.ArtworkProvenances.length > 0) { %>
+						<% Artwork.ArtworkProvenances.forEach(function(prov) { %>
+							<a href="<%= ApiServer %>/stream/provenance/<%= prov.Id %>" target="_blank">
+								<%= prov.FileName %>
+							</a>
+						<% }); %>
+					<% } %>
+				  </td>
+				  <td class="w-7">
+				  	<% if (Artwork.HasQRCode) { %>
+				  		<a href="<%= ApiServer %>/stream/qrcode/<%= Artwork.Id %>" target="_blank">
+							QRCode
+						</a>
+  					<% } %>
+				  </td>
+				  <td class="w-7"></td>
+				  <td class="w-7"><%= Artwork.Approved %></td>
+				  <td class="w-7"><%= Artwork.Fractionalized %></td>
+				  <td class="w-7"><%= Artwork.FractionalizedPercentage %></td>
+				  <td class="w-7"><%= Artwork.LookLateralPrice %></td>
+				  <td class="w-7"><%= Artwork.Price %></td>
+				  <td class="w-7"><%= Artwork.Sellable %></td>
+				  <td class="w-7"><%= Artwork.TotalPurchased %></td>
+				  <td class="w-7"><a class="btn btn-secondary btn-sm" role="button" href="/art-detail-edit?artworkId=<%= Artwork.Id %>">Edit</a></td>
+				  <td class="w-7"><button type="button" class="btn btn-danger btn-sm" data-val="<%= Artwork.Id %>" data-toggle="modal" data-target="#artDeleteModal">Delete</button></td>
+			    </tr>
+		  <% }); %>
+		  </tbody>
+		</table>
+	<% }); %>		  
+	</div>
+	<% if (typeof ErrorText !== 'undefined' && ErrorText !== null && ErrorText != '') { %>
+		<div class="alert alert-danger alert-dismissible">
+		  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		  <%= ErrorText %>
+		</div>
+	<% } %>
+</div>

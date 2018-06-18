@@ -1,0 +1,339 @@
+.navbar {
+	padding: 1rem 1rem;
+}
+.navbar-dark .navbar-toggler {
+    color: rgba(255,255,255,.5);
+    border-color: transparent;
+}
+.navbar.navbar-dark.box-shadow {
+	 background-color: #0070c0;
+}
+/* Mobile brand, hamburger menu remove padding */
+.container.d-flex.justify-content-between {
+    padding-left: 0;
+    padding-right: 0;
+}
+.navbar-toggler {
+    padding: .25rem 0 .25rem .75rem;
+}
+
+.jumbotron.landing-page {
+    background-color: #fff;
+}
+
+.jumbotron.registration {
+    background-color: #fff;
+}
+
+a.btn.btn-primary.my-2.landing-page {
+    width: 100%;
+    max-width: 400px;
+    font-size: 1.5em;
+    background-color: #0070c0;
+}
+a.btn.btn-secondary.register-page {
+    width: 300px;
+    font-size: 1.5em;
+    background-color: #00B0F0;
+    border-color: #00B0F0;
+    color: #fff;
+}
+
+
+/* Center align the text within the two columns below the carousel */
+.registration .col-lg-6 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.registration h2 {
+  font-weight: 400;
+}
+.registration .col-lg-6 p {
+  margin-right: .75rem;
+  margin-left: .75rem;
+}
+
+a.btn.btn-secondary.landing-page {
+	width: 100%;
+  max-width: 400px;
+	font-size: 1.5em;
+	background-color: #0070c0;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+/*    a.btn.btn-secondary.landing-page {
+      width: 250px;
+    }
+    a.btn.btn-primary.my-2.landing-page {
+      width: 250px;
+    }*/
+    .h2, h2 {
+      font-size: 1.5rem;
+    }
+}
+/* Registration / Sign In */
+.btn.btn-lg.btn-primary.btn-block.signin {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+    display: block;
+    width: 100%;
+}
+input.btn.btn-secondary.signin {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+    display: block;
+    width: 100%;
+}
+
+button.btn.btn-lg.btn-primary.btn-block.signin {
+    background-color: #0070c0;
+}
+
+.h3.mb-3.font-weight-normal.signin-create {
+    color: #bcbbbb;
+    font-weight: 500;
+}
+
+p.signin-create {
+    color: #bcbbbb;
+}
+
+section.jumbotron.signin-create.text-center {
+    background-color: #fff;
+}
+
+.form-control {
+  margin-bottom: 1.25em;
+  background-color: #d9d9d9;
+}
+
+hr.signin-create {
+    background-color: #0070c0;
+}
+
+.country {
+  margin-bottom: 1.25em;
+}
+
+p.member-role {
+    margin-bottom: 0;
+    text-align: left;
+    padding-left: 0.75rem;
+}
+
+/* Member Dashboard */
+.jumbotron.white {
+  background-color: #fff;
+}
+.panel-group .panel {
+  overflow: hidden;
+  border-radius: 4px
+}
+.panel-default {
+  border-color: #ddd;
+}
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.panel-default>.panel-heading {
+  color: #333;
+  background-color: #bfbfbf;
+  border-color: #bfbfbf;
+}
+.panel-group .panel-heading {
+  border-bottom: 0;
+}
+.panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-radius: .25rem;
+}
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.5em;
+}
+.panel-heading a:after {
+  font-family: FontAwesome;
+  content:"\f077"; 
+  float: right;
+  color: #fff;
+  font-weight: normal;
+  font-style: normal;
+  margin: 0px 0px 0px 10px;
+  text-decoration: none;
+}
+
+.panel-heading a.collapsed:after {
+  content:"\f078";
+}
+
+form.form-wallet-address {
+    max-width: 400px;
+}
+
+/* Gallery Dashboard */
+a.dashboard {
+    color: #fff;
+}
+a.btn.btn-secondary.sell {
+    background-color: #0070c0;
+    width: 80%;
+    font-size: 1.5em;
+    padding: 0 15px;
+}
+a.btn.btn-secondary.buy {
+    background-color: #0070c0;
+    width: 80%;
+    font-size: 1.5em;
+    padding: 0 15px;
+}
+.artwork-sell {
+    color: #843b0b;
+}
+.artwork-buy {
+    color: #0b8452;
+}
+
+span.add-provenance.artwork-sell {
+    font-weight: 700;    
+}
+@media (max-width: 768px) {
+  img.rounded.float-left.mr-2.provenance {
+    width: 25%;
+  }
+}
+
+button.btn.btn-primary.ml-3.sell {
+    background-color: #843b0b;
+    border-color: #843b0b;
+}
+button.btn.btn-primary.sell {
+    background-color: #843b0b;
+    border-color: #843b0b;
+    width: 110px;
+}
+button.btn.btn-primary.ml-3.buy {
+    background-color: #0b8452;
+    border-color: #0b8452;
+}
+button.btn.btn-primary.buy {
+    background-color: #0b8452;
+    border-color: #0b8452;
+}
+a.art-buy {
+    color: #0b8452;
+    font-weight: 600;
+}
+.modal-artwork-metadata {
+    font-size: .8rem;
+}
+.modal-artwork {
+    color: #333;
+    background-color: #bfbfbf;
+    border-color: #bfbfbf;
+}
+span.sell-disclaimer {
+    font-size: xx-small;
+    color: #843b0b;
+}
+button.btn.btn-primary.payment {
+    background-color: #843b0b;
+    border-color: #843b0b;
+}
+input.btn.btn-secondary.wallet {
+    background-color: #843b0b;
+    border-color: #843b0b;
+}
+
+/* Gallery Dashboard */
+a.btn.btn-secondary.publish {
+    background-color: #843b0b;
+    border-color: #843b0b;
+    width: 80%;
+    font-size: 1.5em;
+    padding: 0 15px;
+}
+
+/* Publish Artwork */
+section.jumbotron.artwork-publish {
+    background-color: #fff;
+    padding-top: 0;
+}
+.h3.mb-3.font-weight-normal.artwork-publish {
+    color: #bcbbbb;
+    font-weight: 500;
+}
+p.artwork-publish {
+    color: #bcbbbb;
+}
+.form-artwork-publish {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: 0 auto;
+}
+input.btn.btn-secondary.publish {
+    color: #fff;
+    background-color: #843b0b;
+    border-color: #843b0b;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+    display: block;
+    width: 100%;
+}
+
+/* Discover Art */
+.metadata-title {
+    font-weight: 700;
+}
+p.description.text-muted.mb-0 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Sysadmin Art List */
+.table td, .table th {
+    padding: .75rem .25rem .75rem .25rem;
+}
+
+
+/*table .w-7 { 
+  width:7%; 
+}
+table .w-16 { 
+  width:20%; 
+}
+table {
+  table-layout:fixed;
+}*/
+
+
+
+
+

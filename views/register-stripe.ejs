@@ -1,0 +1,80 @@
+<%- include('header.ejs') %>
+
+  <main role="main">
+    <section class="jumbotron signin-create text-center">  
+		<form class="form-signin" action="/register-post" method="post">
+			<h1 class="h3 mb-3 font-weight-normal signin-create">Create Account</h1>
+			<p class="signin-create">Intro Text <br/>
+			* Required Fields</p>
+			<label for="firstName" class="sr-only">First name</label>
+			<input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required value="<% if (typeof FirstName !== 'undefined' && FirstName !== null) { %><%= FirstName %><% } %>">
+			<label for="lastName" class="sr-only">Last name</label>
+			<input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required value="<% if (typeof LastName !== 'undefined' && LastName !== null) { %><%= LastName %><% } %>">
+			<label for="inputEmail" class="sr-only">Email</label>
+			<input type="email" id="email" name="email" class="form-control" placeholder="Email address" required value="<% if (typeof Email !== 'undefined' && Email !== null) { %><%= Email %><% } %>">
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+			<label for="inputAddress" class="sr-only">Street Address</label>
+    		<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required>
+    		<label for="inputAddress2" class="sr-only">Secondary Address</label>
+    		<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    		<label for="inputCity" class="sr-only">City</label>
+      		<input type="text" class="form-control" id="inputCity" placeholder="City" required>
+      		<label for="inputState" class="sr-only">State</label>
+		      <select id="inputState" class="form-control" required>
+		        <option selected>Choose State</option>
+		        <option>...</option>
+		      </select>
+		    <label for="inputZip" class="sr-only">Zip</label>
+      		<input type="text" class="form-control" id="inputZip" placeholder="Zip code" required>  
+			<label for="country" class="sr-only">Country</label>
+			<select class="custom-select d-block w-100 country form-control" id="country" name="country" required>
+				<option value="" disabled <% if (typeof Country == 'undefined' || Country == null) { %>selected<% } %>>Select a Country</option>
+				<% for (var i = 0; i < Countries.length; i++) { %>
+					<option <% if (typeof Country !== 'undefined' && Country !== null && Country == Countries[i]) { %>selected<% } %>><%= Countries[i] %></option>
+				<% } %>
+			</select>
+			<label for="telephoneNo" class="sr-only">Phone Number</label>
+			<input type="tel" class="form-control" id="telephoneNo" placeholder="Phone number" required>
+			<label for="walletAddress" class="sr-only">MyEtherWallet Address</label>
+          	<input type="text" class="form-control" id="wallet_address" name="wallet_address" placeholder=" Ethereum Wallet address" value="" required>
+          	<label for="passport-front-closeup">Passport Photo</label>
+			<input type="file" class="form-control" name="FileName" id="FileName" placeholder="Photo of Passport Front Closeup*" value="" required="">
+			<label for="passport-selfie">Selfie with Passport Photo</label>
+			<input type="file" class="form-control" name="FileName" id="FileName" placeholder="Selfie with Passport*" value="" required="">
+			<hr class="signin-create">
+			<div class="custom-control custom-checkbox">
+				<p>Fimart Membership required with new accounts. $25 USD fee.</p>
+
+				<!-- Stripe credit card payment script -->
+				  <script
+				    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+				    data-key="pk_test_1h9mhvEcMxIp7TiTXSj7U5un"
+				    data-amount="$25.00"
+				    data-name="LL Test"
+				    data-description="FIMART Membership Fee"
+				    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+				    data-zip-code="true"
+				    data-locale="auto">
+				  </script>
+			</div>
+			<hr class="signin-create">
+			<div class="custom-control custom-checkbox mb-4">
+				<input type="checkbox" class="custom-control-input" id="fimart-membership" checked="checked">
+				<label class="custom-control-label" for="same-address">Agree to the <a href="/termsofservice">terms of service</a></label>
+			</div>
+
+			<p><input type="submit" class="btn btn-secondary signin" value="Create Account"></p>
+		</form>
+    
+		<% if (typeof ErrorText !== 'undefined' && ErrorText !== null) { %>
+			<div class="alert alert-danger alert-dismissible">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<%= ErrorText %>
+			</div>
+		<% } %>
+
+</section>
+</main>
+
+<%- include('footer.ejs') %>

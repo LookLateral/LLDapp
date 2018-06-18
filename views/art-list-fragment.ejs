@@ -1,0 +1,36 @@
+<%#
+    The main change is that each artwork in the Artworks array contains 3 arrays in addition to the artwork metadata -- the arrays are called ArtworkImages, ArtworkProvenances, and ArtworkOwners. Each element of these arrays (which can be empty) contains the same properties as are returned for /artwork/{id}.
+%>
+
+<div class="ml-0">
+<% Galleries.forEach(function(Gallery) { %>
+<h4>Gallery: <%= Gallery.Title %></h4>
+	  <ul>
+    <% Gallery.Artworks.forEach(function(Artwork) { %>
+    	<li>Artwork ID: <%= Artwork.Id %></li>
+        <li>Title: <%= Artwork.Title %></li>
+        <li>Description: <%= Artwork.Description %></li>
+        <li>Artist: <%= Artwork.Artist %></li>
+        <li>Courtesy: <%= Artwork.Courtesy %></li>
+        <li>Medium: <%= Artwork.Medium %></li>
+        <li>Work Created: <%= Artwork.WorkCreated %></li>
+        <li>Approved: <%= Artwork.Approved %></li>
+        <li>Fractionalized: <%= Artwork.Fractionalized %></li>
+        <li>Fractionalized Percentage: <%= Artwork.FractionalizedPercentage %></li>
+        <li>LL Price: <%= Artwork.LookLateralPrice %></li>
+        <li>USD: <%= Artwork.Price %></li>
+        <li>Sellable: <%= Artwork.Sellable %></li>
+        <li>Total Purchased: <%= Artwork.TotalPurchased %></li>
+
+        <ul>
+        <li>Artwork Image: <%= Artwork.ArtworkImages.FileName %></li>
+        </ul>
+
+        <ul>
+        <li>Artwork Provenance: <%= Artwork.ArtworkProvenances.FileName %></li>   
+        </ul>
+        
+    <% }); %>
+  </ul>	
+<% }); %>
+</div>

@@ -1,0 +1,9 @@
+﻿{
+  "ApiServer": "https://taurusapitest.azurewebsites.net",
+  "SystemWalletAddress": "0xC394C2a539F3a6D692DadCad67d41fc1Eb215CB2",
+  "ExchangeRates": {
+    "Reserve": 0.028050491,
+    "Look": 1.402524544,
+    "Eth": 0.001402524
+  }
+}
